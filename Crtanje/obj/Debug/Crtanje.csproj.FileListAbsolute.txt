@@ -1,0 +1,9 @@
+C:\Users\Ante\Google disk\Desktop\Crtanje\Crtanje\bin\Debug\Crtanje.exe.config
+C:\Users\Ante\Google disk\Desktop\Crtanje\Crtanje\bin\Debug\Crtanje.exe
+C:\Users\Ante\Google disk\Desktop\Crtanje\Crtanje\bin\Debug\Crtanje.pdb
+C:\Users\Ante\Google disk\Desktop\Crtanje\Crtanje\obj\Debug\Crtanje.csprojResolveAssemblyReference.cache
+C:\Users\Ante\Google disk\Desktop\Crtanje\Crtanje\obj\Debug\Crtanje.Form1.resources
+C:\Users\Ante\Google disk\Desktop\Crtanje\Crtanje\obj\Debug\Crtanje.Properties.Resources.resources
+C:\Users\Ante\Google disk\Desktop\Crtanje\Crtanje\obj\Debug\Crtanje.csproj.GenerateResource.Cache
+C:\Users\Ante\Google disk\Desktop\Crtanje\Crtanje\obj\Debug\Crtanje.exe
+C:\Users\Ante\Google disk\Desktop\Crtanje\Crtanje\obj\Debug\Crtanje.pdb
