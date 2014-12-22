@@ -29,5 +29,18 @@ namespace Crtanje
         {
             g.DrawLine(p, T1.t, T2.t);
         }
+        public List<Tocka> pretvori_u_tocke()
+        {
+            List<Tocka> tocke = new List<Tocka>();
+            int udaljenost = Math.Abs(T2.t.X - T1.t.X);
+            for (int z = 0; z < udaljenost; z++)
+            {
+                Point pojnt =(new Point((T1.t.X + z), (int)IzracunajYza((T1.t.X + z))));
+                tocke.Add(new Tocka(pojnt));
+            }
+            return tocke;
+
+
+        }
     }
 }

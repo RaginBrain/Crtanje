@@ -32,8 +32,8 @@ namespace Crtanje
 
         List<Pravac> lista_crta=new List<Pravac>();
         Graphics drawArea;
-        Tocka A = new Tocka(new Point(30, 100));
-        Tocka B = new Tocka(new Point(650, 100));
+        Tocka AA = new Tocka(new Point(30, 100));
+        Tocka BB = new Tocka(new Point(650, 100));
         List<Tocka> put = new List<Tocka>();
 
         Tocka[] niz_Tocaka = new Tocka[15];
@@ -97,6 +97,8 @@ namespace Crtanje
             float mini = 2000;
             Tocka A=null;
             Tocka B=null;
+
+            //petlja provjerava svaku dionicu sadasnjeg puta
             for (int j = 0; j < put.Count - 1; j++)
             {
                 A = put[j];
@@ -111,7 +113,7 @@ namespace Crtanje
                 }
 
 
-
+                //slaže se niz točaka prosjecne_krivulje(izbiveni_vektor)
                 int udaljenost_AB = Math.Abs(B.t.X - A.t.X);
                 Tocka[] niz_tocaka_izbivenog_vektora = new Tocka[udaljenost_AB];
 
@@ -120,10 +122,10 @@ namespace Crtanje
                 {
                     niz_tocaka_izbivenog_vektora[i] = new Tocka(new Point(A.t.X + i, (int)Prosjecni_Y(lista_crta, i, A)));
                 }
+                //----
 
 
-
-
+                //provjerava koja je tocka najblize izbivenom vektoru
                 foreach (Tocka t in niz_Tocaka)
                 {
                     foreach (Tocka s in niz_tocaka_izbivenog_vektora)
@@ -132,12 +134,52 @@ namespace Crtanje
                             mini = s.Distanca(t);
                             min = t;
                             pozicija = j+1;
-
                         }
+                    //gleda i u vec potegnutim crtama
+
+                    //triba napravit put bez A i B
+
+                    
+                    /*
+                    List<Tocka> put_bez = new List<Tocka>(put);
+                    int zabranjeni = put_bez.IndexOf(A) - 1;
+                    put_bez.Remove(A);
+                    put_bez.Remove(B);
+
+                    if(put_bez.Count>2)
+                        for (int znj = 0; znj < put.Count - 1;znj++ )
+                        {
+                            if (znj != zabranjeni)
+                            {
+                                Pravac perislav = new Pravac(put[znj], put[znj + 1]);
+                                List<Tocka> tocke_pravca = perislav.pretvori_u_tocke();
+                                foreach (Tocka s in tocke_pravca)
+                                    if (s.Distanca(t) < mini)
+                                    {
+                                        mini = s.Distanca(t);
+                                        min = t;
+                                        pozicija = j + 1;
+                                    }
+                            }
+                        }*/
+                }
+                
+                //----
+            }
+            //nasa je tocku , gleda ima li boljeg pravca za nju
+            float min_produzetak = put[pozicija - 1].Distanca(min) + put[pozicija].Distanca(min) - put[pozicija - 1].Distanca(put[pozicija]);
+            for (int h = 1; h < put.Count - 1; h++)
+            {
+                float produzetak = put[h - 1].Distanca(min) + put[h].Distanca(min) - put[h - 1].Distanca(put[h]);
+                if (produzetak < min_produzetak)
+                {
+                    min_produzetak = produzetak;
+                    pozicija = h;
                 }
             }
+
+            //zavrsi posao
             list_Tocaka.Remove(min);
-            
             put.Insert(pozicija,min);
 
             return put;
@@ -149,8 +191,8 @@ namespace Crtanje
         {
             InitializeComponent();
             drawArea = pictureBox1.CreateGraphics();
-            put.Add(A);
-            put.Add(B);
+            put.Add(AA);
+            put.Add(BB);
             Random r = new Random();
 
             Pen blackPen = new Pen(Color.Black);
@@ -181,18 +223,18 @@ namespace Crtanje
             
 
 
-            A.Draw(drawArea, blackPen);
-            B.Draw(drawArea, blackPen);
+            AA.Draw(drawArea, blackPen);
+            BB.Draw(drawArea, blackPen);
 
-            Pravac p = new Pravac(A, B);
+            Pravac p = new Pravac(AA, BB);
             lista_crta.Add(p);
             
             for (int i = 0; i < 15; i++)
             {
                
                 niz_Tocaka[i] = new Tocka(new Point(r.Next(50,600),r.Next(0,260)));
-                lista_crta.Add(new Pravac(A, niz_Tocaka[i]));
-                lista_crta.Add(new Pravac(niz_Tocaka[i], B));
+                lista_crta.Add(new Pravac(AA, niz_Tocaka[i]));
+                lista_crta.Add(new Pravac(niz_Tocaka[i], BB));
                 niz_Tocaka[i].Draw(drawArea, blackPen);
             }
 
@@ -202,13 +244,13 @@ namespace Crtanje
             }
 
 
-            int udaljenost_AB = B.t.X - A.t.X;
+            int udaljenost_AB = BB.t.X - AA.t.X;
             Tocka[] niz_tocaka_izbivenog_vektora = new Tocka[udaljenost_AB];
 
 
             for (int i = 0; i < udaljenost_AB; i++)
             {
-                niz_tocaka_izbivenog_vektora[i] = new Tocka(new Point(A.t.X + i, (int)Prosjecni_Y(lista_crta, i, A)));
+                niz_tocaka_izbivenog_vektora[i] = new Tocka(new Point(AA.t.X + i, (int)Prosjecni_Y(lista_crta, i, AA)));
             }
 
             Tocka min = niz_Tocaka[0];
