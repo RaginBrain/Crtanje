@@ -24,6 +24,12 @@ namespace Crtanje
             return ipsilon;
         }
 
+        public float IzracunajXza(float y)
+        {
+            float iks = ((float)  (T2.t.X - T1.t.X)/(T2.t.Y - T1.t.Y)  ) * (float)(y - T1.t.Y) + T1.x;
+            return iks;
+        }
+
 
         public void Draw(Graphics g, Pen p)
         {
