@@ -40,7 +40,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(30, 122);
+            this.pictureBox1.Location = new System.Drawing.Point(30, 172);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(679, 281);
             this.pictureBox1.TabIndex = 0;
@@ -93,24 +93,25 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(183, 34);
             this.button5.TabIndex = 5;
-            this.button5.Text = "Prosjecna krivulja po (x,y)";
+            this.button5.Text = "Prosjecna krivulja po y";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(706, 41);
+            this.button6.Location = new System.Drawing.Point(722, 12);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(70, 61);
             this.button6.TabIndex = 6;
             this.button6.Text = "Novi";
             this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(798, 432);
+            this.ClientSize = new System.Drawing.Size(814, 482);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);

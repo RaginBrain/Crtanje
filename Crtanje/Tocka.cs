@@ -17,6 +17,8 @@ namespace Crtanje
         Brush zuti;
         public float x;
         public float y;
+        public float udaljenost;
+
         
 
         public Tocka(Point T)

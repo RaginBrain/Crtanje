@@ -11,11 +11,16 @@ namespace Crtanje
     {
         public Tocka T1;
         public Tocka T2;
+        public float faktorX;
+        public float faktorY;
 
         public Pravac(Tocka t1, Tocka t2)
         {
             T1 = t1;
-            T2 = t2;           
+            T2 = t2;
+
+            faktorX = (t1.x - t2.x) * (t1.x - t2.x) / ((t1.x - t2.x) * (t1.x - t2.x) + ((t1.y - t2.y) * (t1.y - t2.y)));
+            faktorY = ((t1.y - t2.y) * (t1.y - t2.y)) / ((t1.x - t2.x) * (t1.x - t2.x) + ((t1.y - t2.y) * (t1.y - t2.y)));
         }
 
         public float IzracunajYza(float x)

@@ -69,7 +69,7 @@ namespace Crtanje
 
         //tocke AA i BB su pocetna i zavrsna tocka
         Tocka AA = new Tocka(new Point(30, 100));
-        Tocka BB = new Tocka(new Point(650, 200));
+        Tocka BB = new Tocka(new Point(650, 100));
 
         List<Tocka> put = new List<Tocka>();
 
@@ -80,7 +80,7 @@ namespace Crtanje
 
         public List<Tocka> Rjesi(List<Tocka> put, List<Tocka> Neposjecene_tocke)
         {
-            int pozicija = 0;
+            int pozicija = 1;
             Tocka min = Neposjecene_tocke[0];
             float mini = 2000;
             Tocka A=null;
@@ -92,7 +92,7 @@ namespace Crtanje
                 A = put[j];
                 B = put[j+1];
                 //--------------NOVO
-
+                
                 //--------------
 
                 Pravac p = new Pravac(A, B);
@@ -105,7 +105,7 @@ namespace Crtanje
                 }
 
 
-                //slaže se niz točaka prosjecne_krivulje(izbiveni_vektor)
+                //slaže se niz točaka prosjecne_krivulje(izbiveni_vektor)----PO X-u
                 int udaljenost_AB = Math.Abs(B.t.X - A.t.X);
                 Tocka[] niz_tocaka_izbivenog_vektora = new Tocka[udaljenost_AB];
 
@@ -114,19 +114,48 @@ namespace Crtanje
                 {
                     niz_tocaka_izbivenog_vektora[i] = new Tocka(new Point(A.t.X + i, (int)Prosjecni_Y(lista_crta, i, A)));
                 }
-                //----
+                
 
 
-                //provjerava koja je tocka najblize izbivenom vektoru
                 foreach (Tocka t in Neposjecene_tocke)
                 {
+                    t.udaljenost = niz_tocaka_izbivenog_vektora[0].Distanca(t)*p.faktorX;
                     foreach (Tocka s in niz_tocaka_izbivenog_vektora)
-                        if (s.Distanca(t) < mini)
+                        if (s.Distanca(t) * p.faktorX<t.udaljenost)
+                            t.udaljenost = s.Distanca(t) * p.faktorX;
+                    
+                }
+
+
+
+                //Sad po Y
+
+                 udaljenost_AB = Math.Abs(BB.t.Y - AA.t.Y);
+                niz_tocaka_izbivenog_vektora = new Tocka[udaljenost_AB];
+
+
+                for (int i = 0; i < udaljenost_AB; i++)
+                {
+                    niz_tocaka_izbivenog_vektora[i] = new Tocka(new Point((int)Prosjecni_X(lista_crta, i, AA), AA.t.Y + i));
+                }
+
+                //provjerava koja je tocka najblize izbivenom vektoru
+                
+
+                foreach (Tocka t in Neposjecene_tocke)
+                {
+                    float udaljenostY = 5000;
+
+                    foreach (Tocka s in niz_tocaka_izbivenog_vektora)
+                        if (udaljenostY > s.Distanca(t) * p.faktorY)
+                            udaljenostY = s.Distanca(t) * p.faktorY;
+
+                    if (t.udaljenost < min.udaljenost)
                         {
-                            mini = s.Distanca(t);
                             min = t;
-                            pozicija = j+1;
+                            pozicija = j + 1;
                         }
+                    
                     
                 }
                 
@@ -402,6 +431,13 @@ namespace Crtanje
                 t.DrawManje(drawArea, blackPen);
             }
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        
 
 
         
