@@ -11,22 +11,40 @@ namespace Crtanje
     {
         public Tocka T1;
         public Tocka T2;
+        public float koef_smjera;
+        public float koef_smjera_poY;
 
         public Pravac(Tocka t1, Tocka t2)
         {
             T1 = t1;
-            T2 = t2;           
+            T2 = t2;
+            if ((T2.t.X - T1.t.X) != 0)
+                koef_smjera = (float)(T2.t.Y - T1.t.Y) / (float)(T2.t.X - T1.t.X);
+            else
+                koef_smjera = 0;
+
+            if (T2.t.Y - T1.t.Y != 0)
+                koef_smjera_poY = (float)(T2.t.X - T1.t.X) / (T2.t.Y - T1.t.Y);
+            else
+                koef_smjera_poY = 0;
+        }
+
+        public Pravac(Pravac p, Tocka toc)
+        {
+            koef_smjera = -1 / p.koef_smjera;
+            koef_smjera_poY = -1 / p.koef_smjera_poY;
+            T1 = toc;
         }
 
         public float IzracunajYza(float x)
         {
-            float ipsilon = (float)(((float)(T2.t.Y - T1.t.Y) / (float)(T2.t.X - T1.t.X)) * (x - T1.t.X)) + T1.t.Y;
+            float ipsilon = (float)(koef_smjera * (x - T1.t.X)) + T1.t.Y;
             return ipsilon;
         }
 
         public float IzracunajXza(float y)
         {
-            float iks = ((float)  (T2.t.X - T1.t.X)/(T2.t.Y - T1.t.Y)  ) * (float)(y - T1.t.Y) + T1.x;
+            float iks = (koef_smjera_poY* (float)(y - T1.t.Y) + T1.x);
             return iks;
         }
 
