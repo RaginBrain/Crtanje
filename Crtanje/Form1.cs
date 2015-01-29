@@ -28,6 +28,7 @@ namespace Crtanje
 
             foreach (Pravac pravac in lst)
             {
+
                 //ovaj uvjet je blesav kad je pravac vertikalan 
                 if (pravac.T1.x <= x && x<= pravac.T2.x)
                 {
@@ -40,7 +41,7 @@ namespace Crtanje
             return rjesenje;
         }
 
-        float Prosjecni_Kosi_Y(List<Pravac> lst, int x, Tocka poc,Pravac kosi)
+        float Prosjecni_Kosi_Y(List<Pravac> lst, int x, Tocka poc,Pravac kosi, Tocka rubA, Tocka krajB)
         {
             float rjesenje = 0;
             int koliko = 0;
@@ -50,7 +51,18 @@ namespace Crtanje
 
             foreach (Pravac pravac in lst)
             {
-                //ovaj uvjet je blesav kad je pravac vertikalan 
+
+                Tocka Srednja = pravac.T1;
+                if (Srednja == rubA && Srednja == krajB)
+                    Srednja = pravac.T2;
+
+                Pravac ortogonala_na_kosinu=new Pravac(kosi,Srednja);
+
+
+
+
+
+
                 if (pravac.T1.x <= x && x <= pravac.T2.x)
                 {
                     Tocka lokacija= new Tocka(new Point(x,(int)pravac.IzracunajYza(x)));
@@ -62,7 +74,7 @@ namespace Crtanje
                     rjesenje += vrijednost;
                     koliko++;
                 }
-            }
+            } 
 
             rjesenje = rjesenje / koliko;
             Pravac ortogonala = new Pravac(kosi, na_kosini);
@@ -359,7 +371,6 @@ namespace Crtanje
 
 
             Pravac ort = new Pravac(p, BB);
-           // ort.Draw(drawArea, blackPen);
 
             Tocka OB = new Tocka(new Point((int)ort.IzracunajXza(AA.t.Y), AA.t.Y));
             OB.Draw(drawArea, blackPen);
@@ -368,7 +379,8 @@ namespace Crtanje
             int udaljenost_AB = BB.t.X - AA.t.X;
             int udaljenost_na_X_osi = OB.t.X - AA.t.X;
 
-            float korak = udaljenost_na_X_osi / udaljenost_AB;
+            float korak = (float)udaljenost_na_X_osi / (float)udaljenost_AB;
+            int broj_ponavljanja =(int)(Math.Round(udaljenost_na_X_osi / korak));
 
             //skenopostav
 
@@ -380,12 +392,6 @@ namespace Crtanje
 
 
             niz_Tocaka = new Tocka[10];
-
-
-
-
-
-
             lista_crta.Add(p);
 
             for (int i = 0; i < 10; i++)
@@ -410,7 +416,7 @@ namespace Crtanje
             for (int i = 0; i < udaljenost_AB; i++)
             {
                 Xkosina += korak;
-                niz_tocaka_izbivenog_vektora[i] = new Tocka(new Point(AA.t.X + (int)Xkosina, (int)Prosjecni_Y(lista_crta, (int)Xkosina, AA)));
+                niz_tocaka_izbivenog_vektora[i] = new Tocka(new Point(AA.t.X + (int)Math.Round(Xkosina), (int)Prosjecni_Y(lista_crta, (int)Xkosina, AA)));
             }
 
             Tocka min = niz_Tocaka[0];
@@ -434,6 +440,19 @@ namespace Crtanje
                 t.DrawManje(drawArea, blackPen);
             }
 
+        }
+
+        private void button5_Click_2(object sender, EventArgs e)
+        {
+            Pen blackPen = new Pen(Color.Black);
+            Pravac test1 = new Pravac(new Tocka(new Point(200,100)), new Tocka(new Point(300,150)));
+            Pravac test2 = new Pravac(new Tocka(new Point(50,200)), new Tocka(new Point(350, 50)));
+
+            Tocka z = test1.sjeciste_pravaca(test2);
+
+            test1.Draw(drawArea, blackPen);
+            test2.Draw(drawArea, blackPen);
+            z.Draw(drawArea, blackPen);
         }
 
         

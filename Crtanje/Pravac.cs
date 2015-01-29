@@ -14,6 +14,8 @@ namespace Crtanje
         public float koef_smjera;
         public float koef_smjera_poY;
 
+       
+
         public Pravac(Tocka t1, Tocka t2)
         {
             T1 = t1;
@@ -53,6 +55,8 @@ namespace Crtanje
         {
             g.DrawLine(p, T1.t, T2.t);
         }
+
+
         public List<Tocka> pretvori_u_tocke()
         {
             List<Tocka> tocke = new List<Tocka>();
@@ -63,8 +67,55 @@ namespace Crtanje
                 tocke.Add(new Tocka(pojnt));
             }
             return tocke;
+        }
+        
+        public double[] Segmentni_oblik()
+        {
+            double[] seg = new double[3];
+            seg[0] = T2.t.X - T1.t.X;
+            seg[1] = -(T2.t.Y - T1.t.Y);
+            seg[2]=(T1.t.X*(T2.t.Y-T1.t.Y))- (T1.t.Y*(T2.t.X-T1.t.X));
+            return seg;
+        }
 
+
+        public Tocka sjeciste_pravaca(Pravac p)
+        {
+           
+            double[] prva_jednadzba = this.Segmentni_oblik();
+            double[] druga_jednandzba = p.Segmentni_oblik();
+
+            double[] temp =new double[3];
+
+            double Ykvota_prve = prva_jednadzba[0];
+            double Ykvota_druge= druga_jednandzba[0];
+
+            for (int i = 0; i < 3; i++)
+            {
+                prva_jednadzba[i] *= Ykvota_druge;
+                druga_jednandzba[i] *= Ykvota_prve;
+            }
+
+            if (prva_jednadzba[0] == druga_jednandzba[0])
+                for (int i = 0; i < 3; i++)
+                    druga_jednandzba[i] *= -1;
+
+            for (int i = 0; i < 3; i++)
+                prva_jednadzba[i] += druga_jednandzba[i];
+
+           
+
+            double X = -prva_jednadzba[2] / prva_jednadzba[1];
+            double Y = -(druga_jednandzba[1] * X + druga_jednandzba[2]) / druga_jednandzba[0];
+
+            Tocka sjec = new Tocka(new Point((int)Math.Round(X), (int)Math.Round(Y)));
+           
+            return sjec;
+
+            
 
         }
+
+
     }
 }
