@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
+
+
 namespace Crtanje
 {
    public class Tocka
@@ -22,7 +24,7 @@ namespace Crtanje
         public Tocka(Point T)
         {
             t = T;
-            rect = new Rectangle(new Point(T.X-4,T.Y-4),new Size(8,8) );
+            rect = new Rectangle(new Point(T.X-3,T.Y-3),new Size(6,6) );
             b= new SolidBrush(Color.Red);
             green = new SolidBrush(Color.Green);
             zuti = new SolidBrush(Color.Yellow);
@@ -41,13 +43,13 @@ namespace Crtanje
         }
         public void DrawManje(Graphics g, Pen p)
         {
-            g.DrawArc(p, new Rectangle(rect.X,rect.Y,rect.Width-2,rect.Height-2), 0, 360);
+            g.DrawArc(p, new Rectangle(rect.X,rect.Y,rect.Width-3,rect.Height-3), 0, 360);
             g.FillPie(green, rect, 0, 360);
         }
 
         public void DrawZuto(Graphics g, Pen p)
         {
-            g.DrawArc(p, new Rectangle(rect.X, rect.Y, rect.Width - 2, rect.Height - 2), 0, 360);
+            g.DrawArc(p, new Rectangle(rect.X, rect.Y, rect.Width - 3, rect.Height - 3), 0, 360);
             g.FillPie(zuti, rect, 0, 360);
         }
         

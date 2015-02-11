@@ -47,39 +47,17 @@ namespace Crtanje
             int koliko = 0;
             x += poc.t.X;
 
-            Tocka na_kosini = new Tocka(new Point(x, (int)kosi.IzracunajYza(x)));
-
+            
             foreach (Pravac pravac in lst)
-            {
-
-                Tocka Srednja = pravac.T1;
-                if (Srednja == rubA && Srednja == krajB)
-                    Srednja = pravac.T2;
-
-                Pravac ortogonala_na_kosinu=new Pravac(kosi,Srednja);
-
-
-
-
-
-
+            {           
+                                
                 if (pravac.T1.x <= x && x <= pravac.T2.x)
                 {
-                    Tocka lokacija= new Tocka(new Point(x,(int)pravac.IzracunajYza(x)));
-                    float vrijednost =na_kosini.Distanca(lokacija);
-
-                    if (na_kosini.t.X < lokacija.t.X)
-                        vrijednost = -vrijednost;
                     
-                    rjesenje += vrijednost;
-                    koliko++;
                 }
             } 
 
-            rjesenje = rjesenje / koliko;
-            Pravac ortogonala = new Pravac(kosi, na_kosini);
-
-            int potrebniY = na_kosini.t.Y - (int)(ortogonala.koef_smjera * (x)) + (int)(ortogonala.koef_smjera * na_kosini.x); 
+           
 
 
             return rjesenje;
@@ -92,8 +70,8 @@ namespace Crtanje
         Graphics drawArea;
 
         //tocke AA i BB su pocetna i zavrsna tocka
-        Tocka AA = new Tocka(new Point(30, 280));
-        Tocka BB = new Tocka(new Point(400, 10));
+        Tocka AA = new Tocka(new Point(150, 200));
+        Tocka BB = new Tocka(new Point(500, 100));
 
         List<Tocka> put = new List<Tocka>();
 
@@ -393,7 +371,6 @@ namespace Crtanje
 
             niz_Tocaka = new Tocka[10];
             lista_crta.Add(p);
-
             for (int i = 0; i < 10; i++)
             {
 
@@ -412,11 +389,71 @@ namespace Crtanje
 
             Tocka[] niz_tocaka_izbivenog_vektora = new Tocka[udaljenost_AB];
 
-            float Xkosina = 0;
+            
+
+            float X_os = AA.t.X;
             for (int i = 0; i < udaljenost_AB; i++)
             {
-                Xkosina += korak;
-                niz_tocaka_izbivenog_vektora[i] = new Tocka(new Point(AA.t.X + (int)Math.Round(Xkosina), (int)Prosjecni_Y(lista_crta, (int)Xkosina, AA)));
+                float finalna_udaljenost = 0;
+                bool unutra;
+                int koliko=0;
+                X_os += korak;
+                Pravac ort_virtualna=new Pravac(p,new Tocka(new Point((int)Math.Round(X_os),AA.t.Y)));
+                Tocka sjec_na_kosini = ort_virtualna.sjeciste_pravaca(p);
+                
+
+
+                foreach (Pravac virt_prav in lista_crta)
+                {
+                    unutra = false;
+                    
+                    Tocka virt_sjeciste = ort_virtualna.sjeciste_pravaca(virt_prav);
+
+                    Pravac gran_ort_a = new Pravac(p, virt_prav.T1);
+                    Pravac gran_ort_b = new Pravac(p, virt_prav.T2);
+
+                    float granica_A_vrijednost = gran_ort_a.IzracunajXza(virt_sjeciste.t.Y);
+                    float granica_B_vrijednost = gran_ort_b.IzracunajXza(virt_sjeciste.t.Y);
+
+
+
+                    if (virt_sjeciste.t.X > granica_A_vrijednost && virt_sjeciste.t.X <= granica_B_vrijednost)
+                        unutra = true;
+
+                    if (unutra)
+                    {
+                        koliko++;
+                        if (virt_sjeciste.t.X < sjec_na_kosini.t.X)
+                            finalna_udaljenost += sjec_na_kosini.Distanca(virt_sjeciste);
+                        else
+                            finalna_udaljenost -= sjec_na_kosini.Distanca(virt_sjeciste);
+                    }
+
+                }
+                if (koliko != 11)
+                    MessageBox.Show(koliko.ToString());
+                finalna_udaljenost = finalna_udaljenost / koliko;
+                
+
+                
+                double finalni_X;
+                double finalni_Y;
+                if (finalna_udaljenost > 0)
+                {
+                    finalna_udaljenost *= finalna_udaljenost;
+                    //Math.Round(test3.T1.t.X+Math.Sqrt(test3.cos*10000)),(int)Math.Round(test3.T1.t.Y+Math.Sqrt(test3.sin*10000)))
+                    finalni_X = sjec_na_kosini.t.X - Math.Sqrt(ort_virtualna.cos * finalna_udaljenost);
+                    finalni_Y = sjec_na_kosini.t.Y - Math.Sqrt(ort_virtualna.sin * finalna_udaljenost);
+                }
+                else
+                {
+                    finalna_udaljenost *= finalna_udaljenost;
+                    finalni_X = sjec_na_kosini.t.X + Math.Sqrt(ort_virtualna.cos * finalna_udaljenost);
+                    finalni_Y = sjec_na_kosini.t.Y + Math.Sqrt(ort_virtualna.sin * finalna_udaljenost);
+                }
+
+                niz_tocaka_izbivenog_vektora[i] = new Tocka(new Point((int)Math.Round(finalni_X),(int)Math.Round(finalni_Y)));
+
             }
 
             Tocka min = niz_Tocaka[0];
@@ -446,13 +483,30 @@ namespace Crtanje
         {
             Pen blackPen = new Pen(Color.Black);
             Pravac test1 = new Pravac(new Tocka(new Point(200,100)), new Tocka(new Point(300,150)));
-            Pravac test2 = new Pravac(new Tocka(new Point(50,200)), new Tocka(new Point(350, 50)));
+            Pravac test2 = new Pravac(new Tocka(new Point(200,200)), new Tocka(new Point(350, 50)));
+            Pravac test3 = new Pravac(test2, new Tocka(new Point(100, 50)));
 
-            Tocka z = test1.sjeciste_pravaca(test2);
+            Tocka sjec = test3.sjeciste_pravaca(test2);
+            sjec.Draw(drawArea, blackPen);
 
-            test1.Draw(drawArea, blackPen);
-            test2.Draw(drawArea, blackPen);
-            z.Draw(drawArea, blackPen);
+            //Tocka z = test1.sjeciste_pravaca(test2);
+
+            //test1.Draw(drawArea, blackPen);
+            //test2.Draw(drawArea, blackPen);
+            //test3.Draw(drawArea, blackPen);
+            //test3.T1.Draw(drawArea, blackPen);
+            Tocka testna= new Tocka(new Point((int)Math.Round(test3.T1.t.X+Math.Sqrt(test3.cos*10000)),(int)Math.Round(test3.T1.t.Y+Math.Sqrt(test3.sin*10000))));
+            MessageBox.Show(test3.T1.Distanca(testna).ToString());
+            
+
+            //testna.DrawZuto(drawArea, blackPen);
+            
+            //z.Draw(drawArea, blackPen);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
         }
 
         

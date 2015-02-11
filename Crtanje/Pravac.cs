@@ -14,6 +14,9 @@ namespace Crtanje
         public float koef_smjera;
         public float koef_smjera_poY;
 
+        public float sin;
+        public float cos;
+
        
 
         public Pravac(Tocka t1, Tocka t2)
@@ -29,6 +32,9 @@ namespace Crtanje
                 koef_smjera_poY = (float)(T2.t.X - T1.t.X) / (T2.t.Y - T1.t.Y);
             else
                 koef_smjera_poY = 0;
+
+            sin = ((t2.t.Y - t1.t.Y) * (t2.t.Y - t1.t.Y)) / (t1.Distanca(t2) * t1.Distanca(t2));
+            cos = ((t2.t.X - t1.t.X) * (t2.t.X - t1.t.X)) / (t1.Distanca(t2) * t1.Distanca(t2));
         }
 
         public Pravac(Pravac p, Tocka toc)
@@ -36,6 +42,9 @@ namespace Crtanje
             koef_smjera = -1 / p.koef_smjera;
             koef_smjera_poY = -1 / p.koef_smjera_poY;
             T1 = toc;
+            T2=new Tocka(new Point(T1.t.X+1000,(int)(this.IzracunajYza(T1.t.X+1000))));
+            sin = ((T2.t.Y - T1.t.Y) * (T2.t.Y - T1.t.Y)) / (T1.Distanca(T2) * T1.Distanca(T2));
+            cos = ((T2.t.X - T1.t.X) * (T2.t.X - T1.t.X)) / (T1.Distanca(T2) * T1.Distanca(T2));
         }
 
         public float IzracunajYza(float x)

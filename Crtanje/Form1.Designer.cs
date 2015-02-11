@@ -101,7 +101,7 @@
             // 
             this.button7.Location = new System.Drawing.Point(540, 61);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(110, 45);
+            this.button7.Size = new System.Drawing.Size(110, 55);
             this.button7.TabIndex = 7;
             this.button7.Text = "Ortogonale";
             this.button7.UseVisualStyleBackColor = true;
@@ -109,9 +109,9 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(358, 78);
+            this.button5.Location = new System.Drawing.Point(30, 83);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
+            this.button5.Size = new System.Drawing.Size(75, 33);
             this.button5.TabIndex = 8;
             this.button5.Text = "test sjec";
             this.button5.UseVisualStyleBackColor = true;
@@ -121,7 +121,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(798, 432);
+            this.ClientSize = new System.Drawing.Size(933, 520);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
